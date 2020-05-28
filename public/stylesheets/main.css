@@ -1,0 +1,23 @@
+.img-thumbnail img {
+	width: 100%;
+}
+
+.img-thumbnail + .caption{
+	padding: 9px;
+}
+
+.img-thumbnail {
+	padding: 0;
+}
+
+.delete-form {
+	display:inline;
+}
+
+.jumbo-background {
+	margin-top:10px;
+	background-image: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url(https://images4.alphacoders.com/951/951326.jpg);
+	background-size: 80% 200%;
+	color: white;
+	font-family: 'Roboto', sans-serif;
+}

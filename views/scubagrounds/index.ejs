@@ -1,0 +1,46 @@
+<%- include("../partials/header") %>
+
+
+<!-- jumbotron container -->
+<div class="container">
+	<header class="jumbotron jumbo-background">
+		<h1>Find your next adventure destination at YelpDive!</h1>
+		<p>View the best diving sites around the world.</p>
+<!-- 	search existing diving spots	 -->
+		<p>
+			<form action="/divingsites" method="GET" class="form-inline" id="divingsites-search">
+				<div class="form-group">
+					<input type="text" name="search" placeholder="Search dive sites ..." class="form-control">
+					<input class="btn btn-secondary" type="submit" value="Go!" style="margin: 10px;">
+				</div>
+			</form>
+        </p>
+	<!-- 	add new diving spot	 -->
+		<p>
+			<a class="btn btn-primary btn-md" href="/divingsites/new">Add a New Diving Spot</a>
+		</p>
+	</header>
+<!-- show all diving spots	 -->
+	<div class="row" style="display:flex; flex-wrap:wrap;">
+		<% scubaSpots.forEach(function(scubaSpot){ %>
+			<div class="col-md-4 col-sm-6">
+				<div >
+					<img class="img-thumbnail" src="<%=scubaSpot.img%>">
+					<div class="text-center caption">
+						<h4><%= scubaSpot.name %></h4>
+						<em><%= scubaSpot.nation %> - <%= scubaSpot.region %></em>
+					</div>
+					<p class="text-center">
+						<a href="/divingsites/<%= scubaSpot._id %>" class="btn btn-primary">More Info</a>
+					</p>
+				</div>
+			</div>
+		<% }); %>
+	</div>
+	
+	
+</div>
+
+
+<%- include("../partials/footer") %>
+

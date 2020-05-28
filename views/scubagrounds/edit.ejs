@@ -1,0 +1,56 @@
+<%- include("../partials/header") %>
+<%- include("set_country") %>
+
+<div class="container">
+
+	<h2 class="text-center" style="margin:75px auto 0px auto;">Edit - <%=scubaspot.name%></h2>
+
+	<div class="row">		
+		<div style="width:50%; margin:25px auto;">
+			<form action="/divingsites/<%= scubaspot._id %>?_method=PUT" method="POST">
+				<div class="form-group">
+					<label>Name</label>
+					<input class="form-control" type="text" name="scubaspot[name]" value="<%=scubaspot.name%>" required>
+				</div>
+				<div class="form-group">
+					<label>Image Url</label>
+					<input class="form-control" type="text" name="scubaspot[img]" value="<%=scubaspot.img%>" required>
+				</div>
+				<div class="form-group">
+                    <label>Region</label>
+                    <select id="region" name="scubaspot[region]" size="1" class="form-control" value="<%=scubaspot.continent%>" required>
+						<option value="" selected="selected">SELECT REGION</option>
+						<option value=""></option>
+						<% var regions = setRegions(this); %>
+						<% regions.forEach(function (item, index) {%>
+							<option value="<%=item%>"> <%=item%> </option>
+						<%});%>
+					</select>
+                </div>
+				<!-- TODO: Dynamic selection option of corresponding region and nations-->
+				<div class="form-group">
+					<label>Country</label>
+					<select id="nation"  name="scubaspot[nation]" class="form-control" value="<%=scubaspot.continent%>" required>
+						<option value="" selected="selected">SELECT COUNTRY</option>
+						<option value=""></option>
+						<% var nations = allNations(this); %>
+						<% nations.forEach(function (item, index) {%>
+							<option value="<%=item%>"> <%=item%> </option>
+						<%});%>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Description</label>
+					<input class="form-control" type="text" name="scubaspot[desc]" value="<%=scubaspot.desc%>" required>
+				</div>
+				<div class="form-group">
+					<input type="submit" class="btn btn-lg btn-primary btn-block" value="Submit!">
+				</div>
+			</form>
+			<a href="/divingsites">Back</a>
+		</div>
+	</div>
+	
+</div>
+
+<%- include("../partials/footer") %>

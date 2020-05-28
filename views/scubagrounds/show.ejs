@@ -1,0 +1,71 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+	<div class="row" style="margin-top:10px;">
+		<div class="col-md-3">
+			<div class="list-group">
+				<li class="list-group-item active">Info 1</li>
+				<li class="list-group-item">Info 2</li>
+				<li class="list-group-item">Info 3</li>
+			</div>
+		</div>
+		<!-- map -->
+		<div class="col-md-9">
+			<div class="img-thumbnail">
+				<img class="img-responsive" width=100% src="<%= scubaspot.img %>">
+			</div>
+			<div class="caption">
+				<h2><a><%= scubaspot.name %></a></h2>
+				<h6><a><%= scubaspot.nation %> - <%= scubaspot.region %></a></h6>
+				<p><%= scubaspot.desc %></p>
+				<p>
+					<em>Submitted By <%= scubaspot.author.username %>, <%= scubaspot.createdAt %></em>
+				</p>
+				<% if (currentUser && scubaspot.author.id.equals(currentUser._id)){ %>
+					<a class="btn btn-warning" href="/divingsites/<%= scubaspot._id%>/edit">Edit</a>
+					<form action="/divingsites/<%=scubaspot._id%>?_method=DELETE" class="delete-form" method="POST">
+						<button class="btn btn-danger">Delete</button>
+					</form>
+				<% } %>
+				
+			</div>
+			<div class="card" style="background:#ECECEC;">
+				<div class="" style="display: flex;align-items: center;justify-content: center;padding:10px;">
+					<div class="text-right" style="width:100%">
+						<a class="btn btn-success" href="/divingsites/<%=scubaspot._id%>/comments/new">Leave a Review</a>
+					</div>
+				</div>
+				
+				<hr style="padding:0; margin:0 0;">
+				<% scubaspot.comments.forEach(function(comment){ %>
+					<div class="col-md-12" style="padding:10px;">
+						<div>
+							<strong><%= comment.author.username %></strong>
+							<span class="float-right"><%= comment.createdAt %></span>
+						</div>
+						<p style="margin-block-end:0px;"><%= comment.text %></p>
+						<% if (currentUser && comment.author.id.equals(currentUser._id)){ %>
+							<a class="btn btn-warning" href="/divingsites/<%= scubaspot._id%>/comments/<%=comment._id %>/edit">Edit</a>
+							<form class="delete-form" action="/divingsites/<%=scubaspot._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+								<button class="btn btn-danger">Delete</button>
+							</form>
+						<% } %>
+					</div>
+				<% }); %>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+<p>
+	
+</p>
+
+
+
+<%- include("../partials/footer") %>
