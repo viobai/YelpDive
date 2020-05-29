@@ -62,20 +62,16 @@ router.post("/",middleware.isLoggedIn,function(req,res){
 		id: req.user._id,
 		username: req.user.username
 	}
-	geocoder.geocode(req.body.location, function(err,data){
+	var location = req.body.name + " " + req.body.nation;
+	geocoder.geocode(location, function(err,data){
 		if (err||!data.length){
 			req.flash('err','Invalid address');
-			//return res.redirect('back');
+			return res.redirect('back');
 		}
-		req.flash('success','in');
-		var lat = data[0].latitude;
-		var lng = data[0].longitude;
-		var location = data[0].formattedAddress;
-		var newScubaSpot = {name: newName,img:newImg, nation: newNation, region:newRegion, desc:newDesc, author:author,location: location, lat: lat, lng: lng};
+		var newScubaSpot = {name: newName,img:newImg, nation: newNation, region:newRegion, desc:newDesc, author:author};
 		//create and save to mongoose
 		ScubaSpot.create(newScubaSpot,function(err, newSpot){
 			if (err){
-				req.flash('err',err);
 				console.log(err);
 			}else{
 				req.flash("success","New diving spot is added successfully.");
@@ -111,14 +107,12 @@ router.get("/:id/edit",middleware.isLoggedIn, middleware.checkScubaSpotOwnership
 });
 
 router.put("/:id",middleware.isLoggedIn, middleware.checkScubaSpotOwnership,function(req,res){
-	geocoder.geocode(req.body.location, function(err,data){
+	var location = req.body.name + " " + req.body.nation;
+	geocoder.geocode(location, function(err,data){
 		if (err||!data.length){
 			req.flash('err','Invalid address');
 			return res.redirect('back');
 		}
-		var lat = data[0].latitude;
-		var lng = data[0].longitude;
-		var location = data[0].formattedAddress;
 		
 		ScubaSpot.findByIdAndUpdate(req.params.id,req.body.scubaspot,function(err,scubaSpot){
 			if (err){
