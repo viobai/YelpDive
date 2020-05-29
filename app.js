@@ -52,7 +52,7 @@ app.use("/",indexRoutes);
 app.use("/divingsites",scubagroundRoutes);
 app.use("/divingsites/:id/comments",commentRoutes);
 
-
+//AIzaSyC74GQ4IehVJtnkF6rWlgox2jL9brFACTI
 
 
 

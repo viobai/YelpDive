@@ -2,6 +2,16 @@ var express = require("express");
 var router = express.Router();
 var ScubaSpot = require("../models/scubaSpot");
 var middleware = require("../middleware");
+var NodeGeocoder = require('node-geocoder');
+ 
+var options = {
+  provider: 'google',
+  httpAdapter: 'https',
+  apiKey: process.env.GEOCODER_API_KEY,
+  formatter: null
+};
+ 
+var geocoder = NodeGeocoder(options);
 
 // index page
 router.get("/",function(req,res){
@@ -52,16 +62,25 @@ router.post("/",middleware.isLoggedIn,function(req,res){
 		id: req.user._id,
 		username: req.user.username
 	}
-	var newScubaSpot = {name: newName,img:newImg, nation: newNation, region:newRegion, desc:newDesc, author:author};
-	//create and save to mongoose
-	ScubaSpot.create(newScubaSpot,function(err, newSpot){
-		if (err){
-			console.log(err);
-		}else{
-			req.flash("success","New diving spot is added successfully.");
-			res.redirect("/divingsites");
+	geocoder.geocode(req.body.location, function(err,data){
+		if (err||!data.length){
+			req.flash('err','Invalid address');
+			return res.redirect('back');
 		}
-	})
+		var lat = data[0].latitude;
+		var lng = data[0].longitude;
+		var location = data[0].formattedAddress;
+		var newScubaSpot = {name: newName,img:newImg, nation: newNation, region:newRegion, desc:newDesc, author:author,location: location, lat: lat, lng: lng};
+		//create and save to mongoose
+		ScubaSpot.create(newScubaSpot,function(err, newSpot){
+			if (err){
+				console.log(err);
+			}else{
+				req.flash("success","New diving spot is added successfully.");
+				res.redirect("/divingsites");
+			}
+		});
+	});
 });
 
 // adding new scuba ground page
@@ -90,15 +109,26 @@ router.get("/:id/edit",middleware.isLoggedIn, middleware.checkScubaSpotOwnership
 });
 
 router.put("/:id",middleware.isLoggedIn, middleware.checkScubaSpotOwnership,function(req,res){
-	ScubaSpot.findByIdAndUpdate(req.params.id,req.body.scubaspot,function(err,scubaSpot){
-		if (err){
-			res.redirect("divingsites");
-		} else {
-			req.flash("success","Update successful!");
-			res.redirect("/divingsites/"+ req.params.id);
+	geocoder.geocode(req.body.location, function(err,data){
+		if (err||!data.length){
+			req.flash('err','Invalid address');
+			return res.redirect('back');
 		}
-	})
-})
+		var lat = data[0].latitude;
+		var lng = data[0].longitude;
+		var location = data[0].formattedAddress;
+		
+		ScubaSpot.findByIdAndUpdate(req.params.id,req.body.scubaspot,function(err,scubaSpot){
+			if (err){
+				req.flash("error", err.message);
+				res.redirect("back");
+			} else {
+				req.flash("success","Update successful!");
+				res.redirect("/divingsites/"+ scubaSpot._id);
+			}
+		});
+	});	
+});
 
 // destroy scuba scubagrounds
 router.delete("/:id",middleware.checkScubaSpotOwnership,function(req,res){
