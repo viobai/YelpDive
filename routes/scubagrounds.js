@@ -9,7 +9,7 @@ router.get("/",function(req,res){
 	if(req.query.search && req.query.search != "") {
 		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
 		// Get all campgrounds from DB
-		ScubaSpot.find({name: regex, nation: regex, region: regex}, function(err, allScubaSpots){
+		ScubaSpot.find({name: regex}||{nation: regex}||{region: regex} , function(err, allScubaSpots){
 			if(err){
 				console.log(err);
 			} else {
