@@ -16,8 +16,8 @@
 
 .jumbo-background {
 	margin-top:10px;
-	background-image: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url(https://images4.alphacoders.com/951/951326.jpg);
-	background-size: 80% 200%;
+	background-image: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url(https://images.unsplash.com/photo-1583364512105-951b6f7080ae?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80);
+	/* background-size: 80% 200%; */
 	color: white;
 	font-family: 'Roboto', sans-serif;
 }
