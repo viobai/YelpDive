@@ -6,7 +6,7 @@ var middleware = require("../middleware");
 // index page
 router.get("/",function(req,res){
 	// if search bar is filled
-	if(req.query.search && req.xhr) {
+	if(req.query.search) {
 		req.flash("success","qeury exist");
 		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
 		// Get all campgrounds from DB
