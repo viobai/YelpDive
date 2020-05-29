@@ -2,7 +2,7 @@
   "name": "yelpcamp",
   "version": "1.0.0",
   "description": "YelpCamp",
-  "main": "app.js",
+  "main": "node app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
