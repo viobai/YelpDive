@@ -62,13 +62,12 @@ router.post("/",middleware.isLoggedIn,function(req,res){
 		id: req.user._id,
 		username: req.user.username
 	}
-	req.flash('err','not in');
 	geocoder.geocode(req.body.location, function(err,data){
-		req.flash('success','in');
 		if (err||!data.length){
 			req.flash('err','Invalid address');
 			return res.redirect('back');
 		}
+		req.flash('success','in');
 		var lat = data[0].latitude;
 		var lng = data[0].longitude;
 		var location = data[0].formattedAddress;
@@ -76,6 +75,7 @@ router.post("/",middleware.isLoggedIn,function(req,res){
 		//create and save to mongoose
 		ScubaSpot.create(newScubaSpot,function(err, newSpot){
 			if (err){
+				req.flash('err',err);
 				console.log(err);
 			}else{
 				req.flash("success","New diving spot is added successfully.");
