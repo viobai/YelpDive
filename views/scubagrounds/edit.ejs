@@ -18,24 +18,30 @@
 				</div>
 				<div class="form-group">
                     <label>Region</label>
-                    <select id="region" name="scubaspot[region]" size="1" class="form-control" value="<%=scubaspot.continent%>" required>
-						<option value="" selected="selected">SELECT REGION</option>
+                    <select id="region" name="scubaspot[region]" size="1" class="form-control" value="<%=scubaspot.region%>" required>
 						<option value=""></option>
 						<% var regions = setRegions(this); %>
 						<% regions.forEach(function (item, index) {%>
-							<option value="<%=item%>"> <%=item%> </option>
+							<% if (item != scubaspot.region) {%>
+								<option value="<%=item%>"> <%=item%> </option>
+							<%} else {%>
+								<option value="<%=item%>" selected="selected"> <%=item%> </option>
+							<%}%>
 						<%});%>
 					</select>
                 </div>
 				<!-- TODO: Dynamic selection option of corresponding region and nations-->
 				<div class="form-group">
 					<label>Country</label>
-					<select id="nation"  name="scubaspot[nation]" class="form-control" value="<%=scubaspot.continent%>" required>
-						<option value="" selected="selected">SELECT COUNTRY</option>
+					<select id="nation"  name="scubaspot[nation]" class="form-control" value="<%=scubaspot.nation%>" required>
 						<option value=""></option>
 						<% var nations = allNations(this); %>
 						<% nations.forEach(function (item, index) {%>
-							<option value="<%=item%>"> <%=item%> </option>
+							<% if (item != scubaspot.nation) {%>
+								<option value="<%=item%>"> <%=item%> </option>
+							<%} else {%>
+								<option value="<%=item%>" selected="selected"> <%=item%> </option>
+							<%}%>
 						<%});%>
 					</select>
 				</div>
