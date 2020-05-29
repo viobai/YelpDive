@@ -7,13 +7,15 @@ var middleware = require("../middleware");
 router.get("/",function(req,res){
 	// if search bar is filled
 	if(req.query.search && req.xhr) {
+		console.log("query");
 		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
 		// Get all campgrounds from DB
-		ScubaSpot.find({name: regex, nation:regex, region:regex}, function(err, allScubaSpots){
+		ScubaSpot.find({name: regex}, function(err, allScubaSpots){
 			if(err){
 				console.log(err);
 			} else {
-				res.status(200).json(allScubaSpots);
+				// res.status(200).json(allScubaSpots);
+				res.render("scubagrounds/index",{scubaSpots:allScubaSpots});
 			}
 		});
 	// search bar is empty

@@ -57,6 +57,6 @@ app.use("/divingsites/:id/comments",commentRoutes);
 
 
 
-app.listen(process.env.PORT || 3000, function(){
+app.listen(process.env.PORT ||3000, function(){ // 
 	console.log("The YelpDiving server has started!");
 });
