@@ -69,8 +69,8 @@
 
 <script>
   function initMap() {
-    var lat = <%= campground.lat %>;
-    var lng = <%= campground.lng %>;
+    var lat = <%= scubaspot.lat %>;
+    var lng = <%= scubaspot.lng %>;
     var center = {lat: lat, lng: lng };
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 8,
@@ -78,9 +78,9 @@
         scrollwheel: false
     });
     var contentString = `
-      <strong><%= campground.name %><br />
-      <%= campground.location %></strong>
-      <p><%= campground.description %></p>
+      <strong><%= scubaspot.name %><br />
+      <%= scubaspot.location %></strong>
+      <p><%= scubaspot.desc %></p>
     `
     var infowindow = new google.maps.InfoWindow({
       content: contentString
