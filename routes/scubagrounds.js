@@ -9,13 +9,14 @@ router.get("/",function(req,res){
 	if(req.query.search && req.query.search != "") {
 		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
 		// Get all campgrounds from DB
-		ScubaSpot.find({name: regex}||{nation: regex}||{region: regex} , function(err, allScubaSpots){
-			if(err){
-				console.log(err);
-			} else {
-				res.render("scubagrounds/index",{scubaSpots:allScubaSpots});
-			}
-		});
+		ScubaSpot.find().or([{ 'name': { $regex: regex }}, { 'nation': { $regex: re }}, { 'region': { $regex: re }}]).exec(
+			function(err, allScubaSpots){
+				if(err){
+					console.log(err);
+				} else {
+					res.render("scubagrounds/index",{scubaSpots:allScubaSpots});
+				}
+			});
 	// search bar is empty
 	} else {
 		ScubaSpot.find({},function(err,allScubaSpots){
@@ -25,6 +26,7 @@ router.get("/",function(req,res){
 				if(req.xhr) {
 					res.json(allScubaSpots);
 				} else {
+					// res.render("campgrounds/index",{campgrounds: allCampgrounds, page: 'campgrounds'});
 					res.render("scubagrounds/index",{scubaSpots:allScubaSpots});
 				}
 			}
