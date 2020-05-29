@@ -1,8 +1,13 @@
+"scripts": {
+    "start": "node app.js"
+}
+
+
 {
   "name": "yelpcamp",
   "version": "1.0.0",
   "description": "YelpCamp",
-  "main": "node app.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
