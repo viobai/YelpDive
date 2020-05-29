@@ -17,7 +17,12 @@ var commentRoutes = require("./routes/comments"),
 	
 
 //seedDB();
-mongoose.connect("mongodb://127.0.0.1/yelp_diving",{useNewUrlParser: true,useCreateIndex:true});
+mongoose.connect("mongodb+srv://ViolaBai:0126Baialoiv.@yelpscuba-vou7v.mongodb.net/test?retryWrites=true&w=majority",{useNewUrlParser: true,useCreateIndex:true}).then(() => {
+	console.log("connected to db!");
+}).catch(err => {
+	console.log("error", err.message);
+});
+
 app.set("view engine","ejs");
 app.use(express.static(__dirname+"/public"));
 app.use(bodyParser.urlencoded({extended:true}));
