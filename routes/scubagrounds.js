@@ -72,6 +72,7 @@ router.post("/",middleware.isLoggedIn,function(req,res){
 		//create and save to mongoose
 		ScubaSpot.create(newScubaSpot,function(err, newSpot){
 			if (err){
+				req.flash("error","...");
 				console.log(err);
 			}else{
 				req.flash("success","New diving spot is added successfully.");
