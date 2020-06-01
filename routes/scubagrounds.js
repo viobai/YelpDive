@@ -51,6 +51,16 @@ router.get("/",function(req,res){
 	// })
 });
 
+// about page
+router.get("/about", function(req,res){
+	res.render(".scubagronds/about");
+});
+
+// tips page
+router.get("/tips", function(req,res){
+	res.render(".scubagronds/tips");
+});
+
 // create - add new scuba ground to DB
 router.post("/",middleware.isLoggedIn,function(req,res){
 	var newName = req.body.name;
