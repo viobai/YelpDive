@@ -3,15 +3,11 @@ var router = express.Router();
 var ScubaSpot = require("../models/scubaSpot");
 var middleware = require("../middleware");
 var geocoder = require('geocoder');
- 
-var options = {
-  provider: 'google',
-  httpAdapter: 'https',
-  apiKey: process.env.GEOCODER_API_KEY,
-  formatter: null
+
+// Define escapeRegex function for search feature
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
- 
-var geocoder = NodeGeocoder(options);
 
 // index page
 router.get("/",function(req,res){
@@ -150,11 +146,6 @@ router.delete("/:id",middleware.checkScubaSpotOwnership,function(req,res){
 		}
 	});
 });
-
-// Define escapeRegex function for search feature
-function escapeRegex(text) {
-    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-};
 
 
 module.exports = router;
