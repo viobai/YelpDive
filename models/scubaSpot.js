@@ -5,6 +5,8 @@ var scubaSpotSchema = new mongoose.Schema({
 	img:String,
 	nation: String,
 	region: String,
+	lat: number,
+	lng: number,
 	desc:String,
 	createdAt: { type: String, default: toDateOnly() },
 	author:{

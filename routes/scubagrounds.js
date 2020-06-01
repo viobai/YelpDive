@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var ScubaSpot = require("../models/scubaSpot");
 var middleware = require("../middleware");
-var NodeGeocoder = require('node-geocoder');
+var geocoder = require('geocoder');
  
 var options = {
   provider: 'google',
@@ -72,13 +72,15 @@ router.post("/",middleware.isLoggedIn,function(req,res){
 		id: req.user._id,
 		username: req.user.username
 	}
-	var location = req.body.name + " " + req.body.nation;
+	var location = newName + " " + newNation;
 	geocoder.geocode(location, function(err,data){
 		if (err||!data.length){
 			req.flash('err','Invalid address');
 			return res.redirect('back');
 		}
-		var newScubaSpot = {name: newName,img:newImg, nation: newNation, region:newRegion, desc:newDesc, author:author};
+		var lat = data.results[0].geometry.location.lat;
+    	var lng = data.results[0].geometry.location.lng;
+		var newScubaSpot = {name: newName,img:newImg, nation: newNation, region:newRegion, desc:newDesc, author:author, lat: newLat, lng: newLng};
 		//create and save to mongoose
 		ScubaSpot.create(newScubaSpot,function(err, newSpot){
 			if (err){
