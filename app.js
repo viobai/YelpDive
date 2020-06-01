@@ -18,7 +18,7 @@ var commentRoutes = require("./routes/comments"),
 
 //seedDB(); "mongodb+srv://ViolaBai:yelpdive@yelpscuba-vou7v.mongodb.net/test?retryWrites=true&w=majority"
 var url = process.env.DATABASEURL || "mongodb://localhost/yelp_dive";
-mongoose.connect(url,{useNewUrlParser: true,useCreateIndex:true}).then(() => {
+mongoose.connect("mongodb+srv://ViolaBai:yelpdive@yelpscuba-vou7v.mongodb.net/test?retryWrites=true&w=majority",{useNewUrlParser: true,useCreateIndex:true}).then(() => {
 	console.log("connected to db!");
 }).catch(err => {
 	console.log("error", err.message);

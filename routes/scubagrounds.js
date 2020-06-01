@@ -53,12 +53,12 @@ router.get("/",function(req,res){
 
 // about page
 router.get("/about", function(req,res){
-	res.render("scubagronds/about");
+	res.render("scubagrounds/about");
 });
 
 // tips page
 router.get("/tips", function(req,res){
-	res.render("scubagronds/tips");
+	res.render("scubagrounds/tips");
 });
 
 // create - add new scuba ground to DB
