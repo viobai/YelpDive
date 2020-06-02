@@ -2,7 +2,17 @@ var express = require("express");
 var router = express.Router();
 var ScubaSpot = require("../models/scubaSpot");
 var middleware = require("../middleware");
-var geocoder = require('geocoder');
+var NodeGeocoder = require('node-geocoder');
+var axios = require('axios');
+ 
+var options = {
+  provider: 'google',
+  httpAdapter: 'https',
+  apiKey: process.env.GEOCODER_API_KEY,
+  formatter: null
+};
+ 
+var geocoder = NodeGeocoder(options);
 
 // Define escapeRegex function for search feature
 function escapeRegex(text) {
@@ -47,15 +57,7 @@ router.get("/",function(req,res){
 	// })
 });
 
-// about page
-router.get("/about", function(req,res){
-	res.render("scubagrounds/about");
-});
 
-// tips page
-router.get("/tips", function(req,res){
-	res.render("scubagrounds/tips");
-});
 
 // create - add new scuba ground to DB
 router.post("/",middleware.isLoggedIn,function(req,res){
@@ -74,9 +76,9 @@ router.post("/",middleware.isLoggedIn,function(req,res){
 			req.flash('err','Invalid address');
 			return res.redirect('back');
 		}
-		var lat = data.results[0].geometry.location.lat;
-    	var lng = data.results[0].geometry.location.lng;
-		var newScubaSpot = {name: newName,img:newImg, nation: newNation, region:newRegion, desc:newDesc, author:author, lat: newLat, lng: newLng};
+		var lat = data[0].latitude;
+    	var lng = data[0].longitude;
+		var newScubaSpot = {name: newName,img:newImg, nation: newNation, region:newRegion, desc:newDesc, author:author, lat: lat, lng: lng};
 		//create and save to mongoose
 		ScubaSpot.create(newScubaSpot,function(err, newSpot){
 			if (err){
@@ -98,13 +100,52 @@ router.get("/new",middleware.isLoggedIn,function(req,res){
 // show - more info about one scuba spot
 router.get("/:id", function(req,res){
 	//find the scuba spot with provided provided
-	ScubaSpot.findById(req.params.id).populate("comments").exec(function(err, foundSpot){
+	ScubaSpot.findById(req.params.id).populate("comments").populate("ratings").exec(function(err, foundSpot){
 		if(err){
 			console.log(err);
 		} else {
+			if(foundSpot.ratings.length > 0) {
+				var ratings = [];
+				var length = foundSpot.ratings.length;
+				foundSpot.ratings.forEach(function(rating) { 
+					ratings.push(rating.rating) 
+				});
+				var rating = ratings.reduce(function(total, element) {
+					return total + element;
+				});
+				foundSpot.rating = rating / length;
+ 
+				foundSpot.save();
+			}
+			
 			//render show template
 			res.render("scubagrounds/show",{scubaspot: foundSpot});
 		}
+	});
+});
+
+
+// show - recent news
+router.get("/:id/recentnews", function(req,res){
+	//find the scuba spot with provided provided
+	ScubaSpot.findById(req.params.id, function(err,foundSpot){
+		var query = foundSpot.name + " " + foundSpot.nation;
+		query = query.split(' ').join('+');
+		var url = 'http://newsapi.org/v2/everything?'+"q=" + query + '&sortBy=publishedAt&' + 'apiKey=8af4363721b9402ba4288b068bb6b365';
+		axios.get(url).then(response => {
+			var foundArticles = response.data.articles;
+			if (foundArticles.length>10){
+				foundArticles = foundArticles.slice(0,10);
+			}
+			foundArticles.forEach(function(article){
+				article.content = article.content.replace(/<(.|\n)*?>/g, '');
+			})
+			console.log(foundArticles);
+			res.render("scubagrounds/recentNews", {scubaspot:foundSpot,articles:foundArticles});
+  		}).catch(error => {
+    		console.log(error);
+  		});
+		
 	});
 });
 

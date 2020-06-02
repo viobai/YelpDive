@@ -26,8 +26,12 @@ title{
 	font-family: 'Roboto', sans-serif;
 }
 
-/* Google Maps */
-#map {
-    height: 400px;
-    width: 100%;
+/* Starability Rating Form */
+.starability-basic {
+	min-height: 0;
+}
+
+label{
+	margin-bottom:0;
+	display:inline-block;
 }

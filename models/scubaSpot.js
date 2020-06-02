@@ -21,7 +21,20 @@ var scubaSpotSchema = new mongoose.Schema({
          type: mongoose.Schema.Types.ObjectId,
          ref: "Comment"
       }
-   ]
+   ],
+	localGuides:[
+      {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: "Guide"
+      }
+   ],
+	ratings: [
+      {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: "Rating"
+      }
+   ],
+   rating: { type: Number, default: 0 }
 });
 
 function toDateOnly(){

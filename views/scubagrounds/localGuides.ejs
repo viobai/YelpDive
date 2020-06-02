@@ -1,0 +1,78 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+	<div class="row" style="margin-top:10px;">
+		<div class="col-md-3">
+			<div class="list-group">
+				<li class="list-group-item"><a style="color:black;" href="/divingsites/<%= scubaspot._id%>/">About</a></li>
+				<li class="list-group-item active"><a style="color:white;" href="/divingsites/<%= scubaspot._id%>/localguides">Local Guides</a></li>
+				<li class="list-group-item"><a style="color:black;" href="/divingsites/<%= scubaspot._id%>/recentnews">Recent News</a></li>
+<!-- 		8af4363721b9402ba4288b068bb6b365		 -->
+			</div>
+			<div id="mapLocation" style="width:100%;height:400px;overflow:visible;"></div>
+			
+		</div>
+		
+		<div class="col-md-9">
+			<div class="card">
+				<div class="" style="display: flex;align-items: center;justify-content: center;padding:10px;">
+					<div class="text-right" style="width:100%">
+						<% scubaspot.localGuides.forEach(function(guide){ %>
+							<% if (currentUser && guide.author.id.equals(currentUser._id)){ %>
+								<a class="btn btn-secondary" id="becomeButton" style="color:white;">You are a local guide here!</a>
+							<% } else { %>
+								<a class="btn btn-success"href="/divingsites/<%=scubaspot._id%>/localguides/new">Become a Local Guide</a>
+							<% }; %>
+						<% }); %>
+						<% if (scubaspot.localGuides.length == 0){ %>
+							<a class="btn btn-success"href="/divingsites/<%=scubaspot._id%>/localguides/new">Become a Local Guide</a>
+						<% } %>
+					</div>
+				</div>
+				
+				<hr style="padding:0; margin:0 0;">
+				<% if (scubaspot.localGuides.length==0){ %>
+					<div class="center" style="display: flex;align-items: center;justify-content: center; height:487px;">
+						<h5 class="text-center" style="color:gray;">
+							Sorry, there are currently no local guides.
+						</h5>
+					</div>
+				<% }; %>
+				<% scubaspot.localGuides.forEach(function(guide){ %>
+					<div class="col-md-12" style="padding:10px;">
+						<div>
+							<strong><%= guide.author.username %></strong>
+							<span class="float-right"><%= guide.createdAt %></span>
+						</div>
+						<div style="margin-block-end:0px;">
+							<p>
+								<%= guide.msg %>
+							</p>
+							<div class="row mx-auto">
+								<% if (currentUser && guide.author.id.equals(currentUser._id)){ %>
+									<a class="btn btn-warning" href="/divingsites/<%= scubaspot._id%>/localguides/<%=guide._id %>/edit">Edit</a>
+									<form class="delete-form" action="/divingsites/<%=scubaspot._id%>/localguides/<%=guide._id%>?_method=DELETE" method="POST" style="margin-left:10px;">
+										<button class="btn btn-danger">Delete</button>
+									</form>
+								<% } %>
+							</div>
+						</div>
+					</div>
+				<% }); %>
+			</div>
+		</div>
+	</div>
+</div>
+
+	
+<script>
+	function myMap() {
+		var mapProp= {center:new google.maps.LatLng(<%=scubaspot.lat%>,<%=scubaspot.lng%>), zoom:10};
+		var map = new google.maps.Map(document.getElementById("mapLocation"),mapProp);
+		var marker = new google.maps.Marker({position: {lat: <%=scubaspot.lat%>, lng: <%=scubaspot.lng%>}, map: map});
+	}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYx6Wc3m4GzXeu6DSD0c_SFQEG-86nNyg&callback=myMap"></script>
+
+<%- include("../partials/footer") %>

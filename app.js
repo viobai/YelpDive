@@ -13,7 +13,9 @@ var express    = require("express"),
 
 var commentRoutes = require("./routes/comments"),
 	scubagroundRoutes = require("./routes/scubagrounds"),
-	indexRoutes = require("./routes/index");
+	indexRoutes = require("./routes/index"),
+	ratingRoutes = require("./routes/ratings"),
+	guideRoutes = require("./routes/localguides");
 	
 
 //seedDB(); "mongodb+srv://ViolaBai:yelpdive@yelpscuba-vou7v.mongodb.net/test?retryWrites=true&w=majority"
@@ -52,6 +54,8 @@ app.use(function(req,res,next){
 app.use("/",indexRoutes);
 app.use("/divingsites",scubagroundRoutes);
 app.use("/divingsites/:id/comments",commentRoutes);
+app.use("/divingsites/:id/ratings", ratingRoutes);
+app.use("/divingsites/:id/localguides",guideRoutes);
 
 
 

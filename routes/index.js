@@ -30,6 +30,16 @@ router.post("/register",function(req,res){
 	});
 });
 
+// about page
+router.get("/about", function(req,res){
+	res.render("about");
+});
+
+// tips page
+router.get("/tips", function(req,res){
+	res.render("tips");
+});
+
 //login
 router.get("/login", function(req,res){
 	res.render("login");
