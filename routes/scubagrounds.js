@@ -4,6 +4,7 @@ var ScubaSpot = require("../models/scubaSpot");
 var middleware = require("../middleware");
 var NodeGeocoder = require('node-geocoder');
 var axios = require('axios');
+var foundArticles = [];
  
 var options = {
   provider: 'google',
@@ -134,13 +135,20 @@ router.get("/:id/recentnews", function(req,res){
 		var url = 'http://newsapi.org/v2/everything?'+"q=" + query + '&sortBy=publishedAt&' + 'apiKey=8af4363721b9402ba4288b068bb6b365';
 		axios.get(url).then(response => {
 			var foundArticles = response.data.articles;
+			if (foundArticles.length==null){
+				var url = 'http://newsapi.org/v2/everything?'+"q=" +foundSpot.nation + '&sortBy=publishedAt&' + 'apiKey=8af4363721b9402ba4288b068bb6b365';
+				axios.get(url).then(response => {
+					foundArticles = response.data.articles;
+				}).catch(error => {
+    				console.log(error);
+  				});
+			}
 			if (foundArticles.length>10){
 				foundArticles = foundArticles.slice(0,10);
 			}
 			foundArticles.forEach(function(article){
 				article.content = article.content.replace(/<(.|\n)*?>/g, '');
 			})
-			console.log(foundArticles);
 			res.render("scubagrounds/recentNews", {scubaspot:foundSpot,articles:foundArticles});
   		}).catch(error => {
     		console.log(error);
@@ -187,6 +195,7 @@ router.delete("/:id",middleware.checkScubaSpotOwnership,function(req,res){
 		}
 	});
 });
+
 
 
 module.exports = router;
