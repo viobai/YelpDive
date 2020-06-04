@@ -6,6 +6,8 @@ var middleware = require("../middleware");
 //===============
 //Comments
 //===============
+
+// add new comment
 router.get("/new",middleware.isLoggedIn, function(req,res){
 	ScubaSpot.findById(req.params.id,function(err,scubaspot){
 		if(err){
@@ -17,6 +19,7 @@ router.get("/new",middleware.isLoggedIn, function(req,res){
 	});
 })
 
+// post - add new comment
 router.post("/",middleware.isLoggedIn, function(req,res){
 	ScubaSpot.findById(req.params.id,function(err,scubaspot){
 		if (err){
@@ -40,13 +43,14 @@ router.post("/",middleware.isLoggedIn, function(req,res){
 	});
 });
 
-// edit
+// edit comment
 router.get("/:comment_id/edit",middleware.isLoggedIn, middleware.checkCommentOwnership,function(req,res){
 	Comment.findById(req.params.comment_id, function(err,foundComment){
 		res.render("comments/edit",{scubaspot_id: req.params.id, comment:foundComment});
 	});
 });
 
+// put - edit comment
 router.put("/:comment_id",middleware.checkCommentOwnership,function(req,res){
 	Comment.findOneAndUpdate(req.params.comment_id,req.body.comment,function(err,updatedComment){
 		if (err){
@@ -58,7 +62,7 @@ router.put("/:comment_id",middleware.checkCommentOwnership,function(req,res){
 	});
 });
 
-// destroy scuba scubagrounds
+// delete comment
 router.delete("/:comment_id",middleware.isLoggedIn, middleware.checkCommentOwnership,function(req,res){
 	Comment.findByIdAndRemove(req.params.comment_id, function(err){
 		if (err){

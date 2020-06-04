@@ -4,6 +4,7 @@ var ScubaSpot = require("../models/scubaSpot");
 var Rating = require("../models/rating");
 var middleware = require("../middleware");
 
+// post - new rating
 router.post('/', middleware.isLoggedIn, middleware.checkRatingExists, function(req, res) {
 	ScubaSpot.findById(req.params.id, function(err, scubaspot) {
 		if(err) {
@@ -31,6 +32,7 @@ router.post('/', middleware.isLoggedIn, middleware.checkRatingExists, function(r
 	});
 });
 
+// update rating
 router.put('/:rating_id', middleware.isLoggedIn, middleware.checkRatingExists, function(req, res) {
 	if (req.body.rating && req.body.rating != 0){
 	Rating.findByIdAndUpdate(req.params.rating_id,req.body.rating, function(err, updatedRating) {

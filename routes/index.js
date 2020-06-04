@@ -10,9 +10,13 @@ router.get("/",function(req,res){
 // ===========
 // Authen routes
 // ===========
+
+// register new user
 router.get("/register",function(req,res){
 	res.render("register");
 });
+
+// post - register new user
 router.post("/register",function(req,res){
 	User.find({},function(err,allUsers){
 		allUsers.forEach(function(user){

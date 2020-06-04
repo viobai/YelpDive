@@ -46,7 +46,7 @@
 				<% if (scubaspot.ratings.length == 0) {%>
 					<div class="" style="display: flex;flex-direction: column;align-items: flex-end;">
 						<form action="/divingsites/<%= scubaspot._id %>/ratings" method="POST" style="display: flex;align-items: center;padding:10px;" >
-							<fieldset class="starability-basic" id="rating">
+							<fieldset class="starability-basic" id="rating" style="margin-bottom:0;">
 								<input type="radio" id="first-rate5" name="rating[rating]" value="5" />
 								<label for="first-rate5" title="Amazing">5 stars</label>
 								<input type="radio" id="first-rate4" name="rating[rating]" value="4" />
@@ -69,32 +69,33 @@
 						<!-- 	If user has previous rating on this site	 -->
 						<% if (currentUser && rating.author.id.equals(currentUser._id)){ %>
 							<% exist = true; %>
-								<div class="" style="display: flex;flex-direction: column;align-items: flex-end;">
-									<form action="/divingsites/<%= scubaspot._id %>/ratings/<%= rating._id %>?_method=put" method="post" style="display: flex;align-items: center;padding:10px;" >
-										<fieldset class="starability-basic form-group" id="rating">
-											<input type="radio" id="first-rate5" name="rating[rating]" value="5" />
-											<label for="first-rate5" title="Amazing">5 stars</label>
-											<input type="radio" id="first-rate4" name="rating[rating]" value="4" />
-											<label for="first-rate4" title="Very good">4 stars</label>
-											<input type="radio" id="first-rate3" name="rating[rating]" value="3" />
-											<label for="first-rate3" title="Average">3 stars</label>
-											<input type="radio" id="first-rate2" name="rating[rating]" value="2" />
-											<label for="first-rate2" title="Not good">2 stars</label>
-											<input type="radio" id="first-rate1" name="rating[rating]" value="1" />
-											<label for="first-rate1" title="Terrible">1 star</label>
-										</fieldset>
-										<div style="margin-left:20px;">
-											<button class="btn btn-md btn-light">Update My Rating</button>
-										</div>
-									</form>
-								</div>
+							<div class="" style="display: flex;flex-direction: column;align-items: flex-end;">
+								<form action="/divingsites/<%= scubaspot._id %>/ratings/<%= rating._id %>?_method=put" method="post" style="display: flex;align-items: center;padding:10px; margin-left:10px;" >
+									<p style="margin-bottom:0; margin-right:20px;">My Rating: <%= rating.rating %></p>
+									<fieldset class="starability-basic form-group" id="rating" style="margin-bottom:0;">
+										<input type="radio" id="first-rate5" name="rating[rating]" value="5" />
+										<label for="first-rate5" title="Amazing">5 stars</label>
+										<input type="radio" id="first-rate4" name="rating[rating]" value="4" />
+										<label for="first-rate4" title="Very good">4 stars</label>
+										<input type="radio" id="first-rate3" name="rating[rating]" value="3" />
+										<label for="first-rate3" title="Average">3 stars</label>
+										<input type="radio" id="first-rate2" name="rating[rating]" value="2" />
+										<label for="first-rate2" title="Not good">2 stars</label>
+										<input type="radio" id="first-rate1" name="rating[rating]" value="1" />
+										<label for="first-rate1" title="Terrible">1 star</label>
+									</fieldset>
+									<div style="margin-left:20px;">
+										<button class="btn btn-md btn-light">Update My Rating</button>
+									</div>
+								</form>
+							</div>
 						<% } %>
 					<% }); %>
 					<!-- 	If user has no ratings	on this site	 -->
 					<% if (!exist) { %>
 						<div class="" style="display: flex;flex-direction: column;align-items: flex-end;">
 							<form action="/divingsites/<%= scubaspot._id %>/ratings" method="POST" style="display: flex;align-items: center;padding:10px;" >
-								<fieldset class="starability-basic" id="rating">
+								<fieldset class="starability-basic" id="rating" style="margin-bottom:0;">
 									<input type="radio" id="first-rate5" name="rating[rating]" value="5" />
 									<label for="first-rate5" title="Amazing">5 stars</label>
 									<input type="radio" id="first-rate4" name="rating[rating]" value="4" />

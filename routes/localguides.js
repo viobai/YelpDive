@@ -6,6 +6,7 @@ var middleware = require("../middleware");
 //===============
 //Guides
 //===============
+
 // show - local guides
 router.get("/", function(req,res){
 	//find the scuba spot with provided provided
@@ -19,8 +20,7 @@ router.get("/", function(req,res){
 	});
 });
 
-
-
+// add new guide
 router.get("/new",middleware.isLoggedIn, function(req,res){
 	ScubaSpot.findById(req.params.id,function(err,scubaspot){
 		if(err){
@@ -32,6 +32,7 @@ router.get("/new",middleware.isLoggedIn, function(req,res){
 	});
 })
 
+// post - add new guide
 router.post("/",middleware.isLoggedIn, function(req,res){
 	ScubaSpot.findById(req.params.id,function(err,scubaspot){
 		if (err){
@@ -55,13 +56,14 @@ router.post("/",middleware.isLoggedIn, function(req,res){
 	});
 });
 
-// edit
+// update guide info
 router.get("/:guide_id/edit",middleware.isLoggedIn, middleware.checkGuideOwnership,function(req,res){
 	Guide.findById(req.params.guide_id, function(err,foundGuide){
 		res.render("scubagrounds/editGuide",{scubaspot_id: req.params.id, guide:foundGuide});
 	});
 });
 
+// put - update guide info
 router.put("/:guide_id",middleware.checkGuideOwnership,function(req,res){
 	Guide.findOneAndUpdate(req.params.guide_id,req.body.guide,function(err,updatedGuide){
 		if (err){
@@ -73,7 +75,7 @@ router.put("/:guide_id",middleware.checkGuideOwnership,function(req,res){
 	});
 });
 
-// destroy scuba scubagrounds
+// delete guide info
 router.delete("/:guide_id",middleware.isLoggedIn, middleware.checkGuideOwnership,function(req,res){
 	Guide.findByIdAndRemove(req.params.guide_id, function(err){
 		if (err){

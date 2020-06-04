@@ -81,7 +81,7 @@ router.post("/",middleware.isLoggedIn,function(req,res){
 			});
 		}
 	});
-	
+	// geo locating
 	geocoder.geocode(location, function(err,data){
 		if (err||!data.length){
 			req.flash('err','Invalid address');
@@ -210,12 +210,13 @@ router.delete("/:id",middleware.checkScubaSpotOwnership,function(req,res){
 	});
 });
 
+
+// reformat news articles data
 function formatArticles(fa){
 	// maximum 10 articles
 	if (fa.length>10){
 		fa = fa.slice(0,10);
 	}
-
 	// replace html tags inside content
 	fa.forEach(function(article){
 		article.publishedAt = article.publishedAt.replace(/[a-z]/gi, ' ');
@@ -223,7 +224,6 @@ function formatArticles(fa){
 			article.content = article.content.replace(/<(.|\n)*?>/g, '');
 		}
 	});
-	
 	return fa;
 }
 
