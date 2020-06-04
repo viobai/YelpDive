@@ -13,6 +13,13 @@
 		</div>
 		
 		<div class="col-md-9">
+			<% if (articles.length==0){ %>
+				<div class="center" style="display: flex;align-items: center;justify-content: center; height:487px;">
+					<h5 class="text-center" style="color:gray;">
+						Sorry, no recent news of this diving site is found.
+					</h5>
+				</div>
+			<% } %>
 			<% articles.forEach(function(article){ %>
 				<a href="<%= article.url %>">
 					<div class="card mb-3">

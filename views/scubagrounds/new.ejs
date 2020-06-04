@@ -8,7 +8,7 @@
 
 	<div class="row">		
 		<div style="width:50%; margin:25px auto;">
-			<form action="/divingsites" method="POST">
+			<form action="/divingsites" method="POST"  enctype="multipart/form-data">
 				<div class="form-group">
 					<label>Name</label>
 					<input class="form-control" type="text" name="name" placeholder="name" required>
@@ -45,6 +45,10 @@
 				<div class="form-group">
 					<label>Description</label>
 					<input class="form-control" type="text" name="desc" placeholder="description" required>
+				</div>
+				<div class="form-group">
+					<label>Reference</label>
+					<input class="form-control" type="text" name="reference" placeholder="reference website" required>
 				</div>
 				<div class="form-group">
 					<input type="submit" class="btn btn-lg btn-primary btn-block" value="Submit!">
