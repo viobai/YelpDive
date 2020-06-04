@@ -1,2 +1,2 @@
-# YelpDive---A-Web-Developement-Project
+# YelpDive
 NodeJS
