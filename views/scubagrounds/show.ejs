@@ -25,8 +25,6 @@
 				<% } %>
 				<h2><%= scubaspot.name %><a href="<%= scubaspot.reference %>"><i class="fas fa-link" style="margin-left:10px;font-size: 0.8em;"></i></a></h2>
 				
-			
-				
 				
 				<h6><a><%= scubaspot.nation %> - <%= scubaspot.region %></a></h6>
 				<p><%= scubaspot.desc %></p>
@@ -35,15 +33,65 @@
 				</div>
 				<div class="row mx-auto" style="margin-bottom:10px;margin-top:10px">
 					<% if (currentUser && scubaspot.author.id.equals(currentUser._id)){ %>
-					<a class="btn btn-warning" href="/divingsites/<%= scubaspot._id%>/edit">Edit</a>
-					<form action="/divingsites/<%=scubaspot._id%>?_method=DELETE" class="delete-form" method="POST">
-						<button class="btn btn-danger" style="margin-left:10px;">Delete</button>
+					<form action="" class="" method="" style="margin-top: 5px;">
+						<button class="btn btn-sm btn-warning" href="/divingsites/<%= scubaspot._id%>/edit">Edit</button>
+					</form>
+					<form action="/divingsites/<%=scubaspot._id%>?_method=DELETE" class="delete-form" method="POST" style="margin-left:10px; margin-top: 5px;">
+						<button class="btn btn-danger btn-sm" >Delete</button>
 					</form>
 				<% } %>
 				</div>
 			</div>
-			
+				<!-- 	If there are no ratings	on this site	 -->
 				<% if (scubaspot.ratings.length == 0) {%>
+					<div class="" style="display: flex;flex-direction: column;align-items: flex-end;">
+						<form action="/divingsites/<%= scubaspot._id %>/ratings" method="POST" style="display: flex;align-items: center;padding:10px;" >
+							<fieldset class="starability-basic" id="rating">
+								<input type="radio" id="first-rate5" name="rating[rating]" value="5" />
+								<label for="first-rate5" title="Amazing">5 stars</label>
+								<input type="radio" id="first-rate4" name="rating[rating]" value="4" />
+								<label for="first-rate4" title="Very good">4 stars</label>
+								<input type="radio" id="first-rate3" name="rating[rating]" value="3" />
+								<label for="first-rate3" title="Average">3 stars</label>
+								<input type="radio" id="first-rate2" name="rating[rating]" value="2" />
+								<label for="first-rate2" title="Not good">2 stars</label>
+								<input type="radio" id="first-rate1" name="rating[rating]" value="1" />
+								<label for="first-rate1" title="Terrible">1 star</label>
+							</fieldset>
+							<div style="margin-left:20px;">
+								<button class="btn btn-md btn-light">Submit a Rating</button>
+							</div>
+						</form>
+					</div>
+				<% } else {%>
+					<% var exist = false; %>
+					<% scubaspot.ratings.forEach(function(rating){ %>
+						<!-- 	If user has previous rating on this site	 -->
+						<% if (currentUser && rating.author.id.equals(currentUser._id)){ %>
+							<% exist = true; %>
+								<div class="" style="display: flex;flex-direction: column;align-items: flex-end;">
+									<form action="/divingsites/<%= scubaspot._id %>/ratings/<%= rating._id %>?_method=put" method="post" style="display: flex;align-items: center;padding:10px;" >
+										<fieldset class="starability-basic form-group" id="rating">
+											<input type="radio" id="first-rate5" name="rating[rating]" value="5" />
+											<label for="first-rate5" title="Amazing">5 stars</label>
+											<input type="radio" id="first-rate4" name="rating[rating]" value="4" />
+											<label for="first-rate4" title="Very good">4 stars</label>
+											<input type="radio" id="first-rate3" name="rating[rating]" value="3" />
+											<label for="first-rate3" title="Average">3 stars</label>
+											<input type="radio" id="first-rate2" name="rating[rating]" value="2" />
+											<label for="first-rate2" title="Not good">2 stars</label>
+											<input type="radio" id="first-rate1" name="rating[rating]" value="1" />
+											<label for="first-rate1" title="Terrible">1 star</label>
+										</fieldset>
+										<div style="margin-left:20px;">
+											<button class="btn btn-md btn-light">Update My Rating</button>
+										</div>
+									</form>
+								</div>
+						<% } %>
+					<% }); %>
+					<!-- 	If user has no ratings	on this site	 -->
+					<% if (!exist) { %>
 						<div class="" style="display: flex;flex-direction: column;align-items: flex-end;">
 							<form action="/divingsites/<%= scubaspot._id %>/ratings" method="POST" style="display: flex;align-items: center;padding:10px;" >
 								<fieldset class="starability-basic" id="rating">
@@ -64,58 +112,14 @@
 							</form>
 						</div>
 					<% } %>
-					<% scubaspot.ratings.forEach(function(rating){ %>
-						<% if (currentUser && rating.author.id.equals(currentUser._id)){ %>
-							<div class="" style="display: flex;flex-direction: column;align-items: flex-end;">
-								<form action="/divingsites/<%= scubaspot._id %>/ratings/<%= rating._id %>?_method=put" method="post" style="display: flex;align-items: center;padding:10px;" >
-									<fieldset class="starability-basic form-group" id="rating">
-										<input type="radio" id="first-rate5" name="rating[rating]" value="5" />
-										<label for="first-rate5" title="Amazing">5 stars</label>
-										<input type="radio" id="first-rate4" name="rating[rating]" value="4" />
-										<label for="first-rate4" title="Very good">4 stars</label>
-										<input type="radio" id="first-rate3" name="rating[rating]" value="3" />
-										<label for="first-rate3" title="Average">3 stars</label>
-										<input type="radio" id="first-rate2" name="rating[rating]" value="2" />
-										<label for="first-rate2" title="Not good">2 stars</label>
-										<input type="radio" id="first-rate1" name="rating[rating]" value="1" />
-										<label for="first-rate1" title="Terrible">1 star</label>
-									</fieldset>
-									<div style="margin-left:20px;">
-										<button class="btn btn-md btn-light">Update My Rating</button>
-									</div>
-								</form>
-							</div>
-						<% } else {%>
-							<div class="" style="display: flex;flex-direction: column;align-items: flex-end;">
-								<form action="/divingsites/<%= scubaspot._id %>/ratings" method="POST" style="display: flex;align-items: center;padding:10px;" >
-									<fieldset class="starability-basic" id="rating">
-										<input type="radio" id="first-rate5" name="rating[rating]" value="5" />
-										<label for="first-rate5" title="Amazing">5 stars</label>
-										<input type="radio" id="first-rate4" name="rating[rating]" value="4" />
-										<label for="first-rate4" title="Very good">4 stars</label>
-										<input type="radio" id="first-rate3" name="rating[rating]" value="3" />
-										<label for="first-rate3" title="Average">3 stars</label>
-										<input type="radio" id="first-rate2" name="rating[rating]" value="2" />
-										<label for="first-rate2" title="Not good">2 stars</label>
-										<input type="radio" id="first-rate1" name="rating[rating]" value="1" />
-										<label for="first-rate1" title="Terrible">1 star</label>
-									</fieldset>
-									<div style="margin-left:20px;">
-										<button class="btn btn-md btn-light">Submit a Rating</button>
-									</div>
-								</form>
-							</div>
-						<% } %>
-					<% }); %>
+				<% } %>
 			
 			<div class="card" style="background:#ECECEC;">
-				
 				<div class="" style="display: flex;align-items: center;justify-content: center;padding:10px;">
 					<div class="text-right" style="width:100%">
 						<a class="btn btn-success" href="/divingsites/<%=scubaspot._id%>/comments/new">Leave a Review</a>
 					</div>
 				</div>
-				
 				<hr style="padding:0; margin:0 0;">
 				<% scubaspot.comments.forEach(function(comment){ %>
 					<div class="col-md-12" style="padding:10px;">
@@ -126,9 +130,12 @@
 						<div style="margin-block-end:0px;"><%= comment.text %>
 						<div class="row mx-auto">
 							<% if (currentUser && comment.author.id.equals(currentUser._id)){ %>
-								<a class="btn btn-warning" href="/divingsites/<%= scubaspot._id%>/comments/<%=comment._id %>/edit">Edit</a>
-								<form class="delete-form" action="/divingsites/<%=scubaspot._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST" style="margin-left:10px;">
-									<button class="btn btn-danger">Delete</button>
+							<form action="" class="" method="" style="margin-top: 5px;">
+								<button class="btn btn-warning btn-sm" href="/divingsites/<%= scubaspot._id%>/comments/<%=comment._id %>/edit">Edit</button>
+							</form>
+								<!-- <a class="btn btn-warning btn-sm"  style="margin-top: 5px;" href="/divingsites/<%= scubaspot._id%>/comments/<%=comment._id %>/edit">Edit</a> -->
+								<form class="delete-form" action="/divingsites/<%=scubaspot._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST" style="margin-left:10px; margin-top: 5px;">
+									<button class="btn btn-danger btn-sm">Delete</button>
 								</form>
 							<% } %>
 						</div>

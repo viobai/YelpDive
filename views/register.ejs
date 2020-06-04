@@ -8,19 +8,27 @@
 		<div style="width:50%; margin:25px auto;">
 			<form action="/register" method="POST">
 				<div class="form-group">
-					<input class="form-control" type="text" name="username" placeholder="username">
+					<label for="username">Username</label>
+					<input class="form-control" id="username" type="text" name="username" placeholder="username">
 				</div>
 				<div class="form-group">
-					<input class="form-control" type="password" name="password" placeholder="password">
+					<label for="email">Email</label>
+					<input class="form-control" id="email" type="text" name="email" placeholder="email">
 				</div>
 				<div class="form-group">
-                    <label for="image">Profile Picture</label>
-                    <input type="file" id="image" name="image" accept="image/*" required>
-                </div>
+					<label for="passfirst">Password</label>
+					<input class="form-control" id="passfirst" type="password" name="password" placeholder="password">
+				</div>
+				<div class="form-group">
+					<label for="passsec">Confirm Password</label>
+					<input class="form-control" id="passsec" type="password" name="passsec" placeholder="password">
+				</div>
 				<div class="form-group">
 					<button class="btn btn-lg btn-primary btn-block">Sign Up!</button>
 				</div>
+      			<span>Already a Member at YelpDive? <a href="/login">Go Login!</a></span>
 			</form>
+			<hr>
 			<a href="/divingsites">Back</a>
 		</div>
 	</div>

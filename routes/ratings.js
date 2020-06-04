@@ -20,13 +20,14 @@ router.post('/', middleware.isLoggedIn, middleware.checkRatingExists, function(r
 					scubaspot.ratings.push(rating);
 					scubaspot.save();
 					req.flash("success", "Successfully added rating");
+					res.redirect('/divingsites/' + scubaspot._id);
 				});
 			}
 				
 		} else {
-				req.flash("error", "Please select a rating");
+			req.flash("error", "Please select a rating");
+			res.redirect('/divingsites/' + scubaspot._id);
 		}
-		res.redirect('/divingsites/' + scubaspot._id);
 	});
 });
 

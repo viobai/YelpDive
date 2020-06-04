@@ -14,20 +14,32 @@ router.get("/register",function(req,res){
 	res.render("register");
 });
 router.post("/register",function(req,res){
-	var newUser = new User({username:req.body.username});
-	// if(req.body.adminCode === process.env.ADMIN_CODE) {
-	// 	newUser.isAdmin = true;
-	// }
-	User.register(newUser,req.body.password,function(err,user){
-		if(err){
-			req.flash("error",err);
-			return res.render("register");
-		}
-		passport.authenticate("local")(req,res,function(){
-			req.flash("success","Welcome to YelpDiving "+user.username+"!");
-			res.redirect("/divingsites");
+	User.find({},function(err,allUsers){
+		allUsers.forEach(function(user){
+			if (req.body.email==user.email){
+				res.render("register", { messages: req.flash("error", "Email is already taken!") } );
+			}
 		});
+		var newUser = new User({username:req.body.username,email:req.body.email});
+		if (req.body.password == req.body.passsec){
+			User.register(newUser,req.body.password,function(err,user){
+				if(err){
+					req.flash("error",err);
+					return res.render("register");
+				}
+				passport.authenticate("local")(req,res,function(){
+					req.flash("success","Welcome to YelpDiving "+user.username+"!");
+					res.redirect("/divingsites");
+				});
+			});
+		} else {
+			res.render("register", { messages: req.flash("error", "Passwords do not match!") } );
+		}
+		
+		
 	});
+		
+	
 });
 
 // about page
