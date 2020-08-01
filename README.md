@@ -1,5 +1,5 @@
 # YelpDive
-> A web application project from 
+> A yelp-styled NodeJs application that features diving spots!
 
 ## Live Demo
 To see the app live, please visit <a href="http://yelpdive-viola-bai.herokuapp.com/" target="_blank">**here**</a>.
