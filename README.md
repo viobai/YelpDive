@@ -17,7 +17,8 @@ To see the app live, please visit <a href="http://yelpdive-viola-bai.herokuapp.c
 * Custom Features:
   * Recent local news of the diving spot is displayed
   
-## SnapShots 
+## Demo
+![](https://github.com/viobai/YelpDive/blob/master/YelpDiveDemo.gif)
 
 ## Technology Used
   * ejs
