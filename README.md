@@ -25,7 +25,6 @@ To see the app live, please visit <a href="http://yelpdive-viola-bai.herokuapp.c
   * Google Maps API
   * News API
   * express
-  * express-session
   * mongodb
   * passport
   * connect-flash
